@@ -431,6 +431,29 @@ FRAGMENT;
     }
 
     /**
+     * echo  FormValues on output()
+     * @param $formSelector
+     * @return $this
+     */
+    public function getFormValues($selector)
+    {
+        $fragment = <<<FRAGMENT
+        casper.thenEvaluate(function() {
+            values =  __utils__.getFormValues('$selector')
+            for (var field in values)
+            {
+                __utils__.echo(
+                    field+' = '+values[field]
+                );
+            }
+        });
+FRAGMENT;
+
+        $this->_script .= $fragment;
+        return $this;
+    }
+
+    /**
      * run the casperJS script and return the stdOut
      * in using the output variable
      *
